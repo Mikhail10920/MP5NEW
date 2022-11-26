@@ -5,10 +5,11 @@ using UnityEngine;
 public partial class MyMesh : MonoBehaviour {
 
 	// Use this for initialization
+    int m = 4;
+    int n = 7;
 	void Start () {
 
-        int m = 4;
-        int n = 7;
+        
         Vector3[] arrOne;
         Vector3[,] arrTwo;
         Vector2[] arrThree;
@@ -32,7 +33,7 @@ public partial class MyMesh : MonoBehaviour {
         }
         //Debug.Log(arrOne.Length);
         */
-        theMesh.triangles = CalculateTriangles(n, m);
+        theMesh.triangles = CalculateTriangles(m, n);
         for(int i = 0; i < normalArray.Length; i++)
         {
             normalArray[i] = new Vector3(0, 1, 0);
@@ -118,20 +119,20 @@ public partial class MyMesh : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        /*
+        
         Mesh theMesh = GetComponent<MeshFilter>().mesh;
         Vector3[] v = theMesh.vertices;
-        Vector3[] n = theMesh.normals;
+        Vector3[] normal = theMesh.normals;
         for (int i = 0; i<mControllers.Length; i++)
         {
             v[i] = mControllers[i].transform.localPosition;
         }
 
-        ComputeNormals(v, n);
+        ComputeNormals(v, normal, m, n);
 
         theMesh.vertices = v;
-        theMesh.normals = n;
-        */
+        theMesh.normals = normal;
+        
 
     }
 
@@ -161,7 +162,7 @@ public partial class MyMesh : MonoBehaviour {
         }
     }
 
-    int[] CalculateTriangles( int n, int m)
+    int[] CalculateTriangles( int m, int n)
     {
         int[] t = new int[(m * n) * 2 * 3];
 
@@ -172,25 +173,25 @@ public partial class MyMesh : MonoBehaviour {
             for (int b = 0; b < m; b++)
             {
                 t[counter] = i + b * (n + 1);
-                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
+                //Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
                 t[counter] = (i + 1) + b * (n + 1);
-                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
+                //Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
                 t[counter] = (i + 1) + (b + 1) * (n + 1);
-                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
+                //Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
                 
                 
 
                 t[counter] = i + b * (n + 1);
-                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
+                //Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
                 t[counter] = (i + 1) + (b + 1) * (n + 1);
-                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
+                //Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
                 t[counter] = i + (b + 1) * (n + 1);
-                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
+                //Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
             }
         }

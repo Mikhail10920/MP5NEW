@@ -43,8 +43,18 @@ public partial class MyMesh : MonoBehaviour {
         }
         for(int i = 0; i < normal.Length; i++)
         {
+            try
+            {
+                normal[i] = TrianglesAround(i, m, n, triNormal);
+            }
+            catch (System.Exception e)
+            {
+                print(i);
+                return;
+            }
             
         }
+        /*
         triNormal[0] = FaceNormal(v, 3, 4, 0);
         triNormal[1] = FaceNormal(v, 0, 4, 1);
         triNormal[2] = FaceNormal(v, 4, 5, 1);
@@ -53,7 +63,9 @@ public partial class MyMesh : MonoBehaviour {
         triNormal[5] = FaceNormal(v, 3, 7, 4);
         triNormal[6] = FaceNormal(v, 7, 8, 4);
         triNormal[7] = FaceNormal(v, 4, 8, 5);
+        */
 
+        /*
         normal[0] = (triNormal[0] + triNormal[1]).normalized;
         normal[1] = (triNormal[1] + triNormal[2] + triNormal[3]).normalized;
         normal[2] = triNormal[3].normalized;
@@ -63,6 +75,85 @@ public partial class MyMesh : MonoBehaviour {
         normal[6] = triNormal[4].normalized;
         normal[7] = (triNormal[4] + triNormal[5] + triNormal[6]).normalized;
         normal[8] = (triNormal[6] + triNormal[7]).normalized;
+        */
         UpdateNormals(v, normal);
+    }
+    Vector3 TrianglesAround(int i, int m, int n, Vector3[] triNormal)
+    {
+        //int[] temp = new int[6];
+        int row = i % (n+1);
+        int column = i / (n+1);
+
+
+        if(row == 0)
+        {
+            if(column == 0)
+            {
+                int tri1 = 0;
+                int tri2 = 1;
+                return (triNormal[tri1] + triNormal[tri2]).normalized;
+            }
+            else if(column == m)
+            {
+                int tri1 = (m * 2) - 1;
+                return triNormal[tri1].normalized;
+            }
+            else
+            {
+                int tri1 = (column - 1) * 2 + 1;
+                int tri2 = tri1 + 1;
+                int tri3 = tri2 + 1;
+                return (triNormal[tri1] + triNormal[tri2] + triNormal[tri3]).normalized;
+            }
+        }
+        else if(row == n)
+        {
+            if(column == 0)
+            {
+                int tri1 = m * 2 * (n - 1);
+                return triNormal[tri1].normalized;
+            }
+            else if(column == m)
+            {
+                int tri1 = m * 2 * (n - 1) + (m - 1) * 2;
+                int tri2 = tri1 + 1;
+                return (triNormal[tri1] + triNormal[tri2]).normalized;
+            }
+            else
+            {
+                int tri1 = (column - 1) * 2 + (row - 1) * m * 2 + 1;
+                int tri2 = tri1 + 1;
+                int tri3 = tri2 + 1;
+                return (triNormal[tri1] + triNormal[tri2] + triNormal[tri3]).normalized;
+            }
+        }
+        else if(column == 0 && row != 0 && row != n)
+        {
+            int tri1 = (row - 1) * m * 2;
+            int tri2 = tri1 + m * 2;
+            int tri3 = tri2 + 1;
+            return (triNormal[tri1] + triNormal[tri2] + triNormal[tri3]).normalized;
+        }
+        else if(column == m && row != 0 && row != n)
+        {
+            int tri1 = (column - 1) * 2 + (row - 1) * m * 2;
+            int tri2 = tri1 + 1;
+            int tri3 = tri2 + m * 2;
+            return (triNormal[tri1] + triNormal[tri2] + triNormal[tri3]).normalized;
+        }
+        //Triangles for when point is in the middle
+        else
+        {
+            int tri1 = (column - 1) * 2 + (row - 1) * m * 2; //Bot left square top triangle
+            int tri2 = tri1 + 1;
+            int tri3 = tri2 + 1;
+            int tri4 = tri2 + m * 2; //Top left square top triangle
+            int tri5 = tri4 + 1;
+            int tri6 = tri5 + 1;
+            return (triNormal[tri1] + triNormal[tri2] + triNormal[tri3] + triNormal[tri4] + triNormal[tri5] + triNormal[tri6]).normalized;
+        }
+        
+
+        
     }
 }
