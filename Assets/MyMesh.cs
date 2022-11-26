@@ -151,7 +151,7 @@ public partial class MyMesh : MonoBehaviour {
                 float y = -1 + (2 / n) * (b);
 
                 Vector3 newVect = new Vector3(x, 0, y);
-                Vector2 newVect2 = new Vector2(0, 0);
+                Vector2 newVect2 = new Vector2((x + 1) / 2, (y + 1) / 2);
                 arrThree[counter] = newVect2;
                 arrOne[counter] = newVect;
                 arrTwo[i, b] = newVect;
