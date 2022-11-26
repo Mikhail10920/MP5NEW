@@ -43,15 +43,10 @@ public partial class MyMesh : MonoBehaviour {
         }
         for(int i = 0; i < normal.Length; i++)
         {
-            try
-            {
-                normal[i] = TrianglesAround(i, m, n, triNormal);
-            }
-            catch (System.Exception e)
-            {
-                print(i);
-                return;
-            }
+            
+            normal[i] = TrianglesAround(i, m, n, triNormal);
+            
+            
             
         }
         /*
