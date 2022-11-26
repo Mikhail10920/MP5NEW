@@ -7,8 +7,8 @@ public partial class MyMesh : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        int m = 2;
-        int n = 4;
+        int m = 4;
+        int n = 7;
         Vector3[] arrOne;
         Vector3[,] arrTwo;
         Vector2[] arrThree;
@@ -32,7 +32,7 @@ public partial class MyMesh : MonoBehaviour {
         }
         //Debug.Log(arrOne.Length);
         */
-        theMesh.triangles = CalculateTriangles(m, n);
+        theMesh.triangles = CalculateTriangles(n, m);
         for(int i = 0; i < normalArray.Length; i++)
         {
             normalArray[i] = new Vector3(0, 1, 0);
@@ -161,35 +161,35 @@ public partial class MyMesh : MonoBehaviour {
         }
     }
 
-    int[] CalculateTriangles( int m, int n)
+    int[] CalculateTriangles( int n, int m)
     {
         int[] t = new int[(m * n) * 2 * 3];
 
         int counter = 0;
 
-        for (int i = 0; i < m; i++)
+        for (int i = 0; i < n; i++)
         {
-            for (int b = 0; b < n; b++)
+            for (int b = 0; b < m; b++)
             {
-                t[counter] = i + b * (m + 1);
+                t[counter] = i + b * (n + 1);
                 Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
-                t[counter] = (i + 1) + b * (m + 1);
+                t[counter] = (i + 1) + b * (n + 1);
                 Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
-                t[counter] = (i + 1) + (b + 1) * (m + 1);
+                t[counter] = (i + 1) + (b + 1) * (n + 1);
                 Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
                 
                 
 
-                t[counter] = i + b * (m + 1);
+                t[counter] = i + b * (n + 1);
                 Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
-                t[counter] = (i + 1) + (b + 1) * (m + 1);
+                t[counter] = (i + 1) + (b + 1) * (n + 1);
                 Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
-                t[counter] = i + (b + 1) * (m + 1);
+                t[counter] = i + (b + 1) * (n + 1);
                 Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
             }
