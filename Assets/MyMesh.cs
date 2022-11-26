@@ -7,13 +7,40 @@ public partial class MyMesh : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        int m = 2;
+        int n = 4;
         Vector3[] arrOne;
-        Vector3[][] arrTwo;
-
+        Vector3[,] arrTwo;
+        Vector2[] arrThree;
+        Vector3[] normalArray = new Vector3[(m + 1)* (n + 1)];
+        
+        
 
 
         Mesh theMesh = GetComponent<MeshFilter>().mesh;   // get the mesh component
         theMesh.Clear();    // delete whatever is there!!
+
+        CalculateVertice(out arrOne, out arrTwo, out arrThree, m, n);
+        theMesh.vertices = arrOne;
+        /* int[] test = CalculateTriangles(2, 3);
+        for (int i = 0; i < test.Length; i++)
+        {
+            if(test[i] > arrOne.Length || test[i] < 0)
+            {
+                Debug.Log(i);
+            }
+        }
+        //Debug.Log(arrOne.Length);
+        */
+        theMesh.triangles = CalculateTriangles(m, n);
+        for(int i = 0; i < normalArray.Length; i++)
+        {
+            normalArray[i] = new Vector3(0, 1, 0);
+        }
+        theMesh.normals = normalArray;
+        theMesh.uv = arrThree;
+        theMesh.uv2 = arrThree;
+        /*
 
         Vector3[] v = new Vector3[9];   // 2x2 mesh needs 3x3 vertices 
         int[] t = new int[8*3];         // Number of triangles: 2x2 mesh and 2x triangles on each mesh-unit 
@@ -69,26 +96,29 @@ public partial class MyMesh : MonoBehaviour {
         t[18] = 4; t[19] = 7; t[20] = 8;  // 6th triangle
         t[21] = 4; t[22] = 8; t[23] = 5;  // 7th triangle
 
-        theMesh.vertices = v; //  new Vector3[3];
-        theMesh.triangles = t; //  new int[3];
-        theMesh.normals = n;
-        theMesh.uv = uv;
-        theMesh.uv2 = uv;
 
-        InitControllers(v);
-        InitNormals(v, n);
+        //theMesh.vertices = v; //  new Vector3[3];
+        //theMesh.triangles = t; //  new int[3];
+        //theMesh.normals = n;
+        //theMesh.uv = uv;
+        //theMesh.uv2 = uv;
+        */
+        InitControllers(arrOne);
+        InitNormals(arrOne, normalArray);
 
-
+        /*
         //CulculateVerticis(3, 3);
         int[] t1 = CalculateTringels(2, 2);
         for (int i = 0; i < 8*3; i++)
         {
             Debug.Log(t1[i]);
         }
+        */
     }
 
     // Update is called once per frame
     void Update () {
+        /*
         Mesh theMesh = GetComponent<MeshFilter>().mesh;
         Vector3[] v = theMesh.vertices;
         Vector3[] n = theMesh.normals;
@@ -101,15 +131,17 @@ public partial class MyMesh : MonoBehaviour {
 
         theMesh.vertices = v;
         theMesh.normals = n;
+        */
 
     }
 
-    void CulculateVerticis(out Vector3[] arrOne, out Vector3[,] arrTwo, float m, float n)
+    void CalculateVertice(out Vector3[] arrOne, out Vector3[,] arrTwo, out Vector2[] arrThree, float m, float n)
     {
         int size = (int)((m + 1) * (n + 1));
         arrOne = new Vector3[size];
         arrTwo = new Vector3[(int)(m+1), (int)(n + 1)];
-        int couner = 0;
+        arrThree = new Vector2[size];
+        int counter = 0;
 
         for (int i = 0; i < m + 1; i++)
         {
@@ -119,17 +151,19 @@ public partial class MyMesh : MonoBehaviour {
                 float y = -1 + (2 / n) * (b);
 
                 Vector3 newVect = new Vector3(x, 0, y);
-                arrOne[couner] = newVect;
+                Vector2 newVect2 = new Vector2(0, 0);
+                arrThree[counter] = newVect2;
+                arrOne[counter] = newVect;
                 arrTwo[i, b] = newVect;
-                Debug.Log(newVect);
-                couner++;
+                //Debug.Log(newVect);
+                counter++;
             }
         }
     }
 
-    int[] CalculateTringels( int m, int n)
+    int[] CalculateTriangles( int m, int n)
     {
-        int[] t = new int[(int)(m * n) * 2 * 3];
+        int[] t = new int[(m * n) * 2 * 3];
 
         int counter = 0;
 
@@ -137,18 +171,26 @@ public partial class MyMesh : MonoBehaviour {
         {
             for (int b = 0; b < n; b++)
             {
-                t[counter] = (i + 1) + b * (n + 1);
+                t[counter] = i + b * (m + 1);
+                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
-                t[counter] = i + b * (n + 1);
+                t[counter] = (i + 1) + b * (m + 1);
+                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
-                t[counter] = i + (b + 1) * (n + 1);
+                t[counter] = (i + 1) + (b + 1) * (m + 1);
+                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
+                
+                
 
-                t[counter] = (i + 1) + b * (n + 1);
+                t[counter] = i + b * (m + 1);
+                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
-                t[counter] = i + (b + 1) * (n + 1);
+                t[counter] = (i + 1) + (b + 1) * (m + 1);
+                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
-                t[counter] = (i + 1) + (b + 1) * (n + 1);
+                t[counter] = i + (b + 1) * (m + 1);
+                Debug.Log(counter + ", " + t[counter] + ", " + i + ", " + b);
                 counter++;
             }
         }

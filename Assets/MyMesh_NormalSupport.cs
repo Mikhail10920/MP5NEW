@@ -33,9 +33,18 @@ public partial class MyMesh : MonoBehaviour {
         return Vector3.Cross(a, b).normalized;
     }
 
-    void ComputeNormals(Vector3[] v, Vector3[] n)
+    void ComputeNormals(Vector3[] v, Vector3[] normal,int m, int n)
     {
-        Vector3[] triNormal = new Vector3[8];
+        int[] temp = CalculateTriangles(m, n);
+        Vector3[] triNormal = new Vector3[m * n * 2];
+        for (int i = 0; i < triNormal.Length; i++)
+        {
+            triNormal[i] = FaceNormal(v, temp[0 + 3 * i], temp[1 + 3 * i], temp[2 + 3 * i]);
+        }
+        for(int i = 0; i < normal.Length; i++)
+        {
+            
+        }
         triNormal[0] = FaceNormal(v, 3, 4, 0);
         triNormal[1] = FaceNormal(v, 0, 4, 1);
         triNormal[2] = FaceNormal(v, 4, 5, 1);
@@ -45,15 +54,15 @@ public partial class MyMesh : MonoBehaviour {
         triNormal[6] = FaceNormal(v, 7, 8, 4);
         triNormal[7] = FaceNormal(v, 4, 8, 5);
 
-        n[0] = (triNormal[0] + triNormal[1]).normalized;
-        n[1] = (triNormal[1] + triNormal[2] + triNormal[3]).normalized;
-        n[2] = triNormal[3].normalized;
-        n[3] = (triNormal[0] + triNormal[4] + triNormal[5]).normalized;
-        n[4] = (triNormal[0] + triNormal[1] + triNormal[2] + triNormal[5] + triNormal[6] + triNormal[7]).normalized;
-        n[5] = (triNormal[2] + triNormal[3]).normalized;
-        n[6] = triNormal[4].normalized;
-        n[7] = (triNormal[4] + triNormal[5] + triNormal[6]).normalized;
-        n[8] = (triNormal[6] + triNormal[7]).normalized;
-        UpdateNormals(v, n);
+        normal[0] = (triNormal[0] + triNormal[1]).normalized;
+        normal[1] = (triNormal[1] + triNormal[2] + triNormal[3]).normalized;
+        normal[2] = triNormal[3].normalized;
+        normal[3] = (triNormal[0] + triNormal[4] + triNormal[5]).normalized;
+        normal[4] = (triNormal[0] + triNormal[1] + triNormal[2] + triNormal[5] + triNormal[6] + triNormal[7]).normalized;
+        normal[5] = (triNormal[2] + triNormal[3]).normalized;
+        normal[6] = triNormal[4].normalized;
+        normal[7] = (triNormal[4] + triNormal[5] + triNormal[6]).normalized;
+        normal[8] = (triNormal[6] + triNormal[7]).normalized;
+        UpdateNormals(v, normal);
     }
 }
