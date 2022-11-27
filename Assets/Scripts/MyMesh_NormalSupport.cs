@@ -13,7 +13,7 @@ public partial class MyMesh : MonoBehaviour {
             GameObject o = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             mNormals[i] = o.AddComponent<LineSegment>();
             mNormals[i].SetWidth(0.05f);
-            mNormals[i].transform.SetParent(this.transform);
+            mNormals[i].transform.SetParent(this.transform.GetChild(0));
         }
         UpdateNormals(v, n);
     }
