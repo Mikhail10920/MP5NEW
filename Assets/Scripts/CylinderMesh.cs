@@ -5,7 +5,7 @@ using UnityEngine;
 public class CylinderMesh : MonoBehaviour
 {
     // Start is called before the first frame update
-    public int radius;
+    public float radius;
     public int resolution;
 
     public float degrees;
@@ -22,13 +22,15 @@ public class CylinderMesh : MonoBehaviour
     {
         Mesh theMesh = GetComponent<MeshFilter>().mesh;  
         theMesh.Clear();
-        Vector3[] vertexArray = MakeVertices();
+        Vector3[] normalArray = new Vector3[(upResolution + 1) * (resolution + 1)];
+        Vector3[] vertexArray = MakeVertices(ref normalArray);
         int[] triangleArray = new int[(upResolution * resolution) * 2 * 3];
         MakeTriangles(ref triangleArray);
         theMesh.vertices = vertexArray;
         theMesh.triangles = triangleArray;
+        theMesh.normals = normalArray;
     }
-    Vector3[] MakeVertices()
+    Vector3[] MakeVertices(ref Vector3[] normalArray)
     {
         Vector3[] vertexArray = new Vector3[(upResolution + 1) * (resolution + 1)];
         for(int i = 0; i < resolution + 1; i++)
@@ -38,7 +40,8 @@ public class CylinderMesh : MonoBehaviour
                 Vector3 xzPosition = new Vector3(radius * Mathf.Cos(i * (Mathf.Deg2Rad * degrees/resolution)), 0, radius * Mathf.Sin(i * (Mathf.Deg2Rad * degrees/resolution)));
                 Vector3 yPosition = new Vector3(0, j * squareHeight, 0);
                 vertexArray[j + i * (upResolution + 1)] = xzPosition + yPosition;
-                Debug.Log(vertexArray[j + i * (upResolution + 1)]);
+                //Debug.Log(vertexArray[j + i * (upResolution + 1)]);
+                normalArray[j + i * (upResolution + 1)] = xzPosition.normalized;
             }
         }
         return vertexArray;
