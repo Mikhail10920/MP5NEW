@@ -1159,10 +1159,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 1
-  resolution: 2
-  degrees: 45
-  upResolution: 2
+  resolution: 8
+  degrees: 130
+  upResolution: 4
   squareHeight: 1
+  emptyObj: {fileID: 6582832187367694085, guid: b22363405c89d624d80737d8faad12c8, type: 3}
+  mControllers: []
 --- !u!64 &1395314551
 MeshCollider:
   m_ObjectHideFlags: 0
