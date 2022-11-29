@@ -13,6 +13,9 @@ public partial class MyMesh : MonoBehaviour {
 
     void Start () {
 
+        GameObject ObjectsInside = Instantiate(emptyObj);
+        ObjectsInside.transform.parent = this.transform;
+
         ChangeResolution( m, n);
 
         //Vector3[] arrOne;
@@ -149,9 +152,10 @@ public partial class MyMesh : MonoBehaviour {
         theMesh.uv = arrThree;
         theMesh.uv2 = arrThree;
 
-
+        /*
         GameObject ObjectsInside = Instantiate(emptyObj);
         ObjectsInside.transform.parent = this.transform;
+        */
 
         GameObject axisControlerObj = Instantiate(axisContrl);
         axisControlerObj.transform.parent = this.transform.GetChild(0);

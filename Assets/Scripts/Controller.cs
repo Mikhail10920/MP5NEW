@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Controller : MonoBehaviour
 {
     [SerializeField] GameObject AxisSphereContr;
-    public GameObject choosenObjeck = null;
+    public GameObject chosenObject = null;
     public GameObject controlerAxis = null;
 
     [SerializeField] Slider resolutionSlider;
@@ -21,9 +21,9 @@ public class Controller : MonoBehaviour
 
     private float mZCoord;
 
-    Vector3 mosuePoint;
+    Vector3 mousePoint;
 
-    bool ableToCahangeAxis = true;
+    bool ableToChangeAxis = true;
 
 
     // Start is called before the first frame update
@@ -77,13 +77,13 @@ public class Controller : MonoBehaviour
 
     private Vector3 getMouseWorldPos()
     {
-        mZCoord = Camera.main.WorldToScreenPoint(choosenObjeck.transform.position).z;
+        mZCoord = Camera.main.WorldToScreenPoint(chosenObject.transform.position).z;
 
-        mosuePoint = Input.mousePosition;
+        mousePoint = Input.mousePosition;
 
-        mosuePoint.z = mZCoord;
+        mousePoint.z = mZCoord;
 
-        return Camera.main.ScreenToWorldPoint(mosuePoint);
+        return Camera.main.ScreenToWorldPoint(mousePoint);
     }
 
     //private void OnMouseDrag()
@@ -105,7 +105,7 @@ public class Controller : MonoBehaviour
 
     private void Mouse()
     {
-        AssineAxisObject();
+        AssignAxisObject();
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -115,24 +115,24 @@ public class Controller : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Sphere")
                 {
-                    choosenObjeck = hit.collider.gameObject;
+                    chosenObject = hit.collider.gameObject;
 
                     AxisSphereContr.transform.position = hit.collider.gameObject.transform.position;
                     
                     
                 }
             }
-            ShpereController( hit, ray);
+            SphereController( hit, ray);
         }
     }
 
-    void ShpereController(RaycastHit hit, Ray ray) 
+    void SphereController(RaycastHit hit, Ray ray) 
     { 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.collider.gameObject.tag == "SphereControllerX" && choosenObjeck != null)
+            if (hit.collider.gameObject.tag == "SphereControllerX" && chosenObject != null)
             {
-                choosenObjeck.transform.position += new Vector3((float)(Input.mouseScrollDelta.x), 0, 0);// (float)(Input.mouseScrollDelta.x);
+                chosenObject.transform.position += new Vector3((float)(Input.mouseScrollDelta.x), 0, 0);// (float)(Input.mouseScrollDelta.x);
                 Debug.Log("Controller");
             }
         }
@@ -151,7 +151,7 @@ public class Controller : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "SphereControllerZ")
             {
-                choosenObjeck = hit.collider.gameObject;
+                chosenObject = hit.collider.gameObject;
 
                 AxisSphereContr.transform.position = hit.collider.gameObject.transform.position;
 
@@ -160,7 +160,7 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void AssineAxisObject()
+    public void AssignAxisObject()
     {
         //Debug.Log(GameObject.Find("MyMesh").transform.GetChild(0).name);
 
@@ -176,17 +176,17 @@ public class Controller : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                if (Physics.Raycast(ray, out hit) && (ableToCahangeAxis))
+                if (Physics.Raycast(ray, out hit) && (ableToChangeAxis))
                 {
-                    if (hit.collider.gameObject.tag == "SphereControllerX" && choosenObjeck != null)
+                    if (hit.collider.gameObject.tag == "SphereControllerX" && chosenObject != null)
                     {
                         controlerAxis = hit.collider.gameObject.gameObject;
                     }
-                    else if (hit.collider.gameObject.tag == "SphereControllerY" && choosenObjeck != null)
+                    else if (hit.collider.gameObject.tag == "SphereControllerY" && chosenObject != null)
                     {
                         controlerAxis = hit.collider.gameObject.gameObject;
                     }
-                    else if (hit.collider.gameObject.tag == "SphereControllerZ" && choosenObjeck != null)
+                    else if (hit.collider.gameObject.tag == "SphereControllerZ" && chosenObject != null)
                     {
                         controlerAxis = hit.collider.gameObject.gameObject;
                     }
@@ -194,7 +194,7 @@ public class Controller : MonoBehaviour
                     {
                         controlerAxis = null;
                     }
-                    ableToCahangeAxis = false;
+                    ableToChangeAxis = false;
                 }
             }
             //Debug.Log((float)(Input.mouseScrollDelta.x));
@@ -202,26 +202,31 @@ public class Controller : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            ableToCahangeAxis = true;
+            ableToChangeAxis = true;
 
         }
 
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            if (controlerAxis.tag == "SphereControllerX")
+            if(controlerAxis != null)
             {
-                choosenObjeck.transform.position = new Vector3(getMouseWorldPos().x, choosenObjeck.transform.position.y, choosenObjeck.transform.position.z);
-                AxisSphereContr.transform.position = choosenObjeck.transform.position;
-            }
-            else if (controlerAxis.tag == "SphereControllerY")
-            {
-                choosenObjeck.transform.position = new Vector3(choosenObjeck.transform.position.x, getMouseWorldPos().y, choosenObjeck.transform.position.z);
-                AxisSphereContr.transform.position = choosenObjeck.transform.position;
-            }
-            else if (controlerAxis.tag == "SphereControllerZ")
-            {
-                choosenObjeck.transform.position = new Vector3(choosenObjeck.transform.position.x, choosenObjeck.transform.position.y, getMouseWorldPos().z);
-                AxisSphereContr.transform.position = choosenObjeck.transform.position;
+
+            
+                if (controlerAxis.tag == "SphereControllerX")
+                {
+                    chosenObject.transform.position = new Vector3(getMouseWorldPos().x, chosenObject.transform.position.y, chosenObject.transform.position.z);
+                    AxisSphereContr.transform.position = chosenObject.transform.position;
+                }
+                else if (controlerAxis.tag == "SphereControllerY")
+                {
+                    chosenObject.transform.position = new Vector3(chosenObject.transform.position.x, getMouseWorldPos().y, chosenObject.transform.position.z);
+                    AxisSphereContr.transform.position = chosenObject.transform.position;
+                }
+                else if (controlerAxis.tag == "SphereControllerZ")
+                {
+                    chosenObject.transform.position = new Vector3(chosenObject.transform.position.x, chosenObject.transform.position.y, getMouseWorldPos().z);
+                    AxisSphereContr.transform.position = chosenObject.transform.position;
+                }
             }
         }
     }
