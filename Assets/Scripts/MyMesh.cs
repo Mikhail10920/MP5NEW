@@ -152,6 +152,7 @@ public partial class MyMesh : MonoBehaviour {
         theMesh.uv = arrThree;
         theMesh.uv2 = arrThree;
 
+        GetComponent<TexturePlacement>().SetUV(arrThree);
         /*
         GameObject ObjectsInside = Instantiate(emptyObj);
         ObjectsInside.transform.parent = this.transform;
