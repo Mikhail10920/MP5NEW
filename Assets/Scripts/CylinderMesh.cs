@@ -239,7 +239,7 @@ public class CylinderMesh : MonoBehaviour
         {
             int tri1 = (row - 1) * 2 + (column - 1) * n * 2;
             int tri2 = tri1 + 1;
-            int tri3 = tri2 + m * 2;
+            int tri3 = tri2 + 2;
             return (triNormal[tri1] + triNormal[tri2] + triNormal[tri3]).normalized;
         }
         //Triangles for when point is in the middle
