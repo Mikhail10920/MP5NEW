@@ -10,11 +10,12 @@ public class Controller : MonoBehaviour
     public GameObject controlerAxis = null;
 
     [SerializeField] Slider resolutionSlider;
+    [SerializeField] Slider resolutionSliderY;
     [SerializeField] MyMesh mesh;
     [SerializeField] GameObject meshObj;
 
-
     int resolutionVal = 2;
+    int resolutionValY = 2;
 
 
     private Vector3 mOffset;
@@ -40,6 +41,7 @@ public class Controller : MonoBehaviour
     void Update()
     {
         SliderChangeResolution();
+        SliderChangeResolutionY();
         Mouse();
         if (Input.GetKey(KeyCode.LeftControl))
         {
@@ -51,7 +53,10 @@ public class Controller : MonoBehaviour
             meshObj.transform.GetChild(0).gameObject.SetActive(false);
             controlerAxis = null;
         }
-        Axises();
+        if ((!(Input.GetKey(KeyCode.LeftAlt))))
+        {
+            Axises();
+        }
 
 
 
@@ -96,10 +101,22 @@ public class Controller : MonoBehaviour
         if (resolutionSlider.value != resolutionVal)
         {
             mesh.m = (int)resolutionSlider.value;
-            mesh.n = (int)resolutionSlider.value;
+            //mesh.n = (int)resolutionSlider.value;
 
-            mesh.ChangeResolution((int)resolutionSlider.value, (int)resolutionSlider.value);
+            mesh.ChangeResolution(mesh.m, mesh.n);
             resolutionVal = (int)resolutionSlider.value;
+        }
+    }
+
+    void SliderChangeResolutionY()
+    {
+        if (resolutionSliderY.value != resolutionValY)
+        {
+            //mesh.m = (int)resolutionSlider.value;
+            mesh.n = (int)resolutionSliderY.value;
+
+            mesh.ChangeResolution(mesh.m, mesh.n);
+            resolutionValY = (int)resolutionSliderY.value;
         }
     }
 
@@ -107,7 +124,7 @@ public class Controller : MonoBehaviour
     {
         AssignAxisObject();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && (!(Input.GetKey(KeyCode.LeftAlt))))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -127,37 +144,41 @@ public class Controller : MonoBehaviour
     }
 
     void SphereController(RaycastHit hit, Ray ray) 
-    { 
-        if (Physics.Raycast(ray, out hit))
+    {
+        if ((!(Input.GetKey(KeyCode.LeftAlt))))
         {
-            if (hit.collider.gameObject.tag == "SphereControllerX" && chosenObject != null)
+            if (Physics.Raycast(ray, out hit))
             {
-                chosenObject.transform.position += new Vector3((float)(Input.mouseScrollDelta.x), 0, 0);// (float)(Input.mouseScrollDelta.x);
-                Debug.Log("Controller");
+                if (hit.collider.gameObject.tag == "SphereControllerX" && chosenObject != null)
+                {
+                    chosenObject.transform.position += new Vector3((float)(Input.mouseScrollDelta.x), 0, 0);// (float)(Input.mouseScrollDelta.x);
+                    Debug.Log("Controller");
+                }
+            }
+            else if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.gameObject.tag == "SphereControllerY")
+                {
+                    //choosenObjeck = hit.collider.gameObject;
+
+                    AxisSphereContr.transform.position = hit.collider.gameObject.transform.position;
+
+
+                }
+            }
+            else if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.gameObject.tag == "SphereControllerZ")
+                {
+                    chosenObject = hit.collider.gameObject;
+
+                    AxisSphereContr.transform.position = hit.collider.gameObject.transform.position;
+
+
+                }
             }
         }
-        else if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.collider.gameObject.tag == "SphereControllerY")
-            {
-                //choosenObjeck = hit.collider.gameObject;
 
-                AxisSphereContr.transform.position = hit.collider.gameObject.transform.position;
-
-
-            }
-        }
-        else if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.collider.gameObject.tag == "SphereControllerZ")
-            {
-                chosenObject = hit.collider.gameObject;
-
-                AxisSphereContr.transform.position = hit.collider.gameObject.transform.position;
-
-
-            }
-        }
     }
 
     public void AssignAxisObject()
@@ -169,6 +190,8 @@ public class Controller : MonoBehaviour
 
     void Axises()
     {
+        
+
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
