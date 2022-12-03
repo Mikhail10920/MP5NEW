@@ -9,7 +9,7 @@ public partial class MyMesh : MonoBehaviour {
     public int n = 2;
 
     [SerializeField] GameObject emptyObj;
-    [SerializeField] GameObject axisContrl;
+    //[SerializeField] GameObject axisContrl;
 
     void Start () {
 
@@ -158,8 +158,8 @@ public partial class MyMesh : MonoBehaviour {
         ObjectsInside.transform.parent = this.transform;
         */
 
-        GameObject axisControlerObj = Instantiate(axisContrl);
-        axisControlerObj.transform.parent = this.transform.GetChild(0);
+        //GameObject axisControlerObj = Instantiate(axisContrl);
+        //axisControlerObj.transform.parent = this.transform.GetChild(0);
 
         InitControllers(arrOne);
         InitNormals(arrOne, normalArray);

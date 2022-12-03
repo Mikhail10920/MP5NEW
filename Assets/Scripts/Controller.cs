@@ -32,6 +32,7 @@ public class Controller : MonoBehaviour
     {
         meshObj = GameObject.Find("MyMesh");
         //meshObj.transform.GetChild(0).gameObject.SetActive(false);
+        AxisSphereContr = GameObject.Find("AxisControler");
         StartCoroutine(MyCorout());
 
 
@@ -47,10 +48,12 @@ public class Controller : MonoBehaviour
         {
             Debug.Log("CONTROL");
             meshObj.transform.GetChild(0).gameObject.SetActive(true);
+            AxisSphereContr.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             meshObj.transform.GetChild(0).gameObject.SetActive(false);
+            AxisSphereContr.SetActive(false);
             controlerAxis = null;
         }
         if ((!(Input.GetKey(KeyCode.LeftAlt))))
@@ -185,7 +188,7 @@ public class Controller : MonoBehaviour
     {
         //Debug.Log(GameObject.Find("MyMesh").transform.GetChild(0).name);
 
-        AxisSphereContr = GameObject.Find("MyMesh").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+        //AxisSphereContr = GameObject.Find("MyMesh").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
     }
 
     void Axises()
@@ -258,6 +261,7 @@ public class Controller : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         meshObj.transform.GetChild(0).gameObject.SetActive(false);
+        AxisSphereContr.SetActive(false);
 
     }
 }

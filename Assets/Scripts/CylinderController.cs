@@ -54,15 +54,20 @@ public class CylinderController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if(meshObj != null)
         {
-            
-            meshObj.transform.GetChild(0).gameObject.SetActive(true);
-        }
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            meshObj.transform.GetChild(0).gameObject.SetActive(false);
-            
+
+        
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                
+                meshObj.transform.GetChild(0).gameObject.SetActive(true);
+            }
+            if (Input.GetKeyUp(KeyCode.LeftControl))
+            {
+                meshObj.transform.GetChild(0).gameObject.SetActive(false);
+                
+            }
         }
 
 
