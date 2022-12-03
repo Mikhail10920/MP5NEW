@@ -141,8 +141,9 @@ public class CylinderMesh : MonoBehaviour
             }
         return triangleArray;
     }
-    void ChangeResolution()
+    public void ChangeResolution()
     {
+        DestroyChildern();
         Mesh theMesh = GetComponent<MeshFilter>().mesh;  
         theMesh.Clear();
         Vector3[] normalArray;
@@ -169,7 +170,22 @@ public class CylinderMesh : MonoBehaviour
     }
 
 
+    void DestroyChildern()
+    {
+        if (this.transform.childCount != 0)
+        {
+            Debug.Log(this.transform.GetChild(0).gameObject.name);
+            GameObject chiled = this.transform.GetChild(0).gameObject;
+            for (int i = chiled.transform.childCount - 1; i >= 0; i--)
+            {
+                //GameObject chiled = this.gameObject.transform.GetChild(i).gameObject;
+                Destroy(chiled.gameObject.transform.GetChild(i).gameObject);
+                Debug.Log("Sestroyed");
+            }
 
+            //Destroy(this.gameObject.transform.GetChild(0).gameObject);
+        }
+    }
 
 
 
